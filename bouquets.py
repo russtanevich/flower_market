@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 class Bouquet(object):
 
     def __init__(self, flowers="", accessories=""):
@@ -66,6 +69,16 @@ class Bouquet(object):
     def uncouple(self):
         for item in self.items:
             self.remove(item)
+
+    @property
+    def wilting_term(self):
+        result = datetime.timedelta(0)
+        date_now = datetime.now()
+        for flower in self.flowers:
+            result += (flower.date_expired - date_now)
+        medium_left /= result/len(self.flowers)
+        medium_expired = date_now + medium_left
+        return medium_expired
 
     def __str__(self):
         return "<{} ${}>".format(self.__class__.__name__, self.price)

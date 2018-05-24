@@ -16,10 +16,7 @@ def test_flower():
 
     print banch.get_flower(price=10, colour="red", length=70)
 
-    for _ in banch.items:
-        print _
-
-    print banch.price
+    print banch.wilting_term
 
 
 if __name__ == "__main__":
