@@ -1,8 +1,11 @@
+# -*- coding: utf-8 -*-
+""" The ACCESSORIES module"""
 from market.goods import Good
 
 
 class Accessory(Good):
-    def __init__(self, price, expired, discount=0):
+    """ACCESSORY base class"""
+    def __init__(self, price, expired=None, discount=0):
         super(Accessory, self).__init__(price, expired, discount)
 
 
@@ -22,7 +25,5 @@ class Ribbon(Accessory):
     pass
 
 
-class Bows(Accessory):
+class Bow(Accessory):
     pass
-
-

@@ -1,7 +1,13 @@
+# -*- coding: utf-8 -*-
+""" The FLOWERS module"""
 from market.goods import Good
 
 
 class Flower(Good):
+    """The abstraction of flowers"""
+    _broken_flag = "BROKEN"
+    _no_broken_flag = ""
+    _str_format = "<{cls} {colour} #{id}: ${prc}, expired: {dt} {brk}>"
 
     def __init__(self, price, expired, colour, length, discount=0, is_broken=False):
         super(Flower, self).__init__(price, expired, discount)
@@ -22,8 +28,25 @@ class Flower(Good):
         return self._is_broken
 
     def break_down(self):
+        """The flower become broken"""
         self._is_broken = True
-        return "{} is broken".format(self)
+
+    def __str__(self):
+        """The STR-FORMAT method"""
+        is_broken = Flower._no_broken_flag
+        if self.is_broken:
+            is_broken = Flower._broken_flag
+        return Flower._str_format.format(
+                    cls=type(self).__name__,
+                    colour=self.colour,
+                    id=id(self),
+                    prc=self.price,
+                    dt=self.date_expired.date(),
+                    brk=is_broken
+                )
+
+    def __repr__(self):
+        return str(self)
 
 
 class Rose(Flower):
