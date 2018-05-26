@@ -17,7 +17,7 @@ class Bouquet(object):
     _not_exist = "No {item} in {obj}"
     _str_format = "<{cls} #{id},  ${prc} expired: {dt}>"
 
-    def __init__(self, flowers="", accessories=""):
+    def __init__(self, flowers=(), accessories=()):
         self._flowers = set(flowers)
         self._accessories = set(accessories)
 
@@ -50,7 +50,7 @@ class Bouquet(object):
         type_ = set(type(item).mro()) & set(Bouquet._allowed)
         if type_:
             key = Bouquet._allowed[type_.pop()]
-            self.__getattribute__(key).add(item)
+            getattr(self, key).add(item)
         else:
             raise TypeError(Bouquet._incorrect_item.format(item=item, obj=self))
 
@@ -60,24 +60,24 @@ class Bouquet(object):
         for item in items[:count]:
             self.add_item(item)
 
-    def _gen_get_flower(self, **kwargs):
+    def _gen_get_flower(self, **queries):
         """Return a GEN object of found flowers"""
         for flower in self.flowers:
-            if all((flower.__getattribute__(key) == kwargs[key]) for key in kwargs):
+            if all((getattr(flower, key) == val) for key, val in queries.iteritems()):
                 yield flower
 
-    def get_flower(self, **kwargs):
+    def get_flower(self, **queries):
         """Get the first found flower or None (if it is not exist)"""
         try:
-            return next(self._gen_get_flower(**kwargs))
+            return next(self._gen_get_flower(**queries))
         except StopIteration:
             return
 
-    def get_flowers(self, sort_by="__class__", **kwargs):
+    def get_flowers(self, sort_by="__class__", **queries):
         """Get flowers by parameters. The sorting is available by attributes"""
         return sorted(
-                    (_ for _ in self._gen_get_flower(**kwargs)),
-                    key=lambda x: x.__getattribute__(sort_by)
+                    (flower for flower in self._gen_get_flower(**queries)),
+                    key=lambda x: getattr(x, sort_by)
                 )
 
     def remove(self, item):

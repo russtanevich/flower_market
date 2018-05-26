@@ -52,7 +52,7 @@ def test_flower():
     #  Check flowers for breaking after uncoupling
     print("FRESH ROSES:\n{}".format(red_roses[:5]))
     million_red_roses.uncouple()
-    print("BROKEN ROSES:\n{}\n".format(red_roses[:5]))
+    print("And they become BROKEN after uncoupling:\n{}\n".format(red_roses[:5]))
 
     #  SORTING, ITER, SEARCHING
     print("\nSORTING BY EXPIRED:\n{}".format(strange_bouquet.get_flowers(sort_by="date_expired")))
