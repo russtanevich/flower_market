@@ -8,7 +8,7 @@ import bouquets
 
 
 logger = logging.getLogger("spam")
-
+raise ValueError("Special Error")
 
 def expired_in(days):
     """<Expired in> func returns dynamic expired terms."""
